@@ -1,0 +1,80 @@
+/* --- FINAL, CORRECTED LAYOUT --- */
+/* This ensures the dark background is always covering the page */
+html {
+  background-color: #1a1a2e;
+}
+body {
+  margin: 0;
+  background-color: #1a1a2e;
+  color: #e0e0e0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* This is our main flex container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* At least 100% of the viewport height */
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 2rem;
+  box-sizing: border-box; /* Include padding in height calculation */
+}
+
+/* The header takes up its natural space */
+.app-header {
+  flex-shrink: 0; /* Prevents the header from shrinking */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #4a4a5e;
+  padding-bottom: 1rem;
+}
+.app-header h1 { margin: 0; font-size: 1.8rem; color: #ff9a8b; }
+.crypto-selector select { padding: 0.5rem; font-size: 1rem; background-color: #2a2a3e; color: #e0e0e0; border: 1px solid #4a4a5e; border-radius: 6px; }
+
+/* --- THIS IS THE KEY FIX --- */
+/* The main content area grows to fill all remaining space */
+.app-main {
+  flex-grow: 1;
+  display: flex; /* This helps its child (the grid) to fill it */
+}
+
+/* The grid itself should take up all the space its parent gives it */
+.dashboard-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  grid-template-rows: auto 1fr;
+  gap: 1.5rem;
+}
+
+/* Styling for the grid items */
+.grid-item-controls,
+.grid-item-kpis,
+.grid-item-chart,
+.grid-item-history {
+  background-color: #2a2a3e;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #4a4a5e;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Grid placement rules */
+.grid-item-kpis { 
+  grid-column: 2 / 3; 
+  grid-row: 1 / 2; 
+}
+
+.grid-item-history { 
+  grid-column: 2 / 3; 
+  grid-row: 2 / 3; 
+}
+
+.grid-item-chart { 
+  grid-column: 3 / 4;
+  grid-row: 1 / 3; 
+}

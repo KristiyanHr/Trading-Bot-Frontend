@@ -1,0 +1,100 @@
+.controls-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.mode-selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #1a1a2e;
+  padding: 0.75rem;
+  border-radius: 6px;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #4a4a5e;
+  transition: .4s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+}
+input:checked + .slider {
+  background-color: #ff9a8b;
+}
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+.slider.round {
+  border-radius: 34px;
+}
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Button Styles */
+.button-group {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+.btn {
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.btn-start {
+  background-color: #28a745;
+  color: white;
+}
+.btn-start:hover {
+  background-color: #218838;
+}
+.btn-stop {
+  background-color: #dc3545;
+  color: white;
+}
+.btn-stop:hover {
+  background-color: #c82333;
+}
+.btn-reset {
+  background-color: #6c757d;
+  color: white;
+}
+.btn-reset:hover {
+  background-color: #5a6268;
+}
+.btn:disabled {
+  background-color: #4a4a5e;
+  cursor: not-allowed;
+}

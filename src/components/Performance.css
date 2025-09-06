@@ -1,0 +1,32 @@
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.kpi-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background-color: #1a1a2e;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.kpi-label {
+  font-size: 0.9rem;
+  color: #a0a0b0;
+}
+
+.kpi-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.kpi-value.profit {
+  color: #28a745; /* Green for profit */
+}
+
+.kpi-value.loss {
+  color: #dc3545; /* Red for loss */
+}
