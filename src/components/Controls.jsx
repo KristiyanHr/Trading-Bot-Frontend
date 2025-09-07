@@ -1,13 +1,38 @@
 import React, { useState } from 'react';
 import './Controls.css';
+import { startBacktest, startLiveSim, stopLiveSim, resetAccount } from '../apiService';
 
-// This is the critical line where the prop is received.
-// Note the curly braces around selectedCrypto.
-const Controls = ({ selectedCrypto }) => {
+const Controls = ({ selectedCrypto, onActionComplete, isLive, setIsLive }) => {
   const [mode, setMode] = useState('backtest');
+  const [ isLoading, setIsLoading ] = useState(false);
 
-  // This is a safety check. If for some reason the prop is not passed,
-  // we won't crash the app. This is good practice.
+  const handleStart = async () => {
+    setIsLoading(true);
+    if (mode === 'live') {
+        await startLiveSim(selectedCrypto.symbol);
+        setIsLive(true);
+    }else{
+        await resetAccount();
+        await startBacktest(selectedCrypto.symbol);
+        alert("Backtest started in the background. The dashboard will update periodically.");
+        setTimeout(() => onActionComplete(), 8000); 
+    }
+    setIsLoading(false);
+  }
+
+  const handleStop = async () => {
+    await stopLiveSim();
+    setIsLive(false);
+    onActionComplete();
+  }
+
+  const handleReset = async () => {
+    setIsLoading(true);
+    await resetAccount();
+    setIsLoading(false);
+    onActionComplete();
+  }
+
   if (!selectedCrypto) {
     return <div>Loading controls...</div>;
   }
@@ -23,6 +48,7 @@ const Controls = ({ selectedCrypto }) => {
             type="checkbox" 
             checked={mode === 'live'} 
             onChange={() => setMode(prev => prev === 'live' ? 'backtest' : 'live')} 
+            disabled={isLive} 
           />
           <span className="slider round"></span>
         </label>
@@ -30,16 +56,27 @@ const Controls = ({ selectedCrypto }) => {
       </div>
 
       <div className="button-group">
-        <button className="btn btn-start">
-          {mode === 'live' ? 'Start Live Sim' : 'Start Backtest'}
+        <button className="btn btn-start"
+          onClick={handleStart}
+          disabled = { isLoading || isLive }
+        >
+            { isLoading ? 'Processing...' : (mode === 'live' ? 'Start Live Sim' : 'Start Backtest')}
         </button>
-        <button className="btn btn-stop" disabled={mode !== 'live'}>
+
+        <button className="btn btn-stop"
+         disabled={ !isLive }
+         onClick={handleStop}
+        >
           Stop Simulation
         </button>
-        <button className="btn btn-reset">
+
+        <button className="btn btn-reset"
+         onClick={handleReset}
+         disabled={ isLoading || isLive }>
           Reset Account
         </button>
       </div>
+        {isLive && <p className="live-indicator">Live Simulation is Running...</p>}
     </div>
   );
 };

@@ -1,13 +1,11 @@
 import React from 'react';
-import './TradeHistory.css'; // We will create this
+import './TradeHistory.css'; 
 
-const TradeHistory = () => {
-  // Placeholder data. Tomorrow, this will come from our backend.
-  const trades = [
-    { id: 1, timestamp: '2025-09-06 10:30:15', symbol: 'BTCUSDT', tradeType: 'BUY', quantity: 0.015, price: 66666.66 },
-    { id: 2, timestamp: '2025-09-06 11:45:20', symbol: 'BTCUSDT', tradeType: 'SELL', quantity: 0.015, price: 67100.00, pnl: 6.49 },
-    { id: 3, timestamp: '2025-09-06 14:05:00', symbol: 'BTCUSDT', tradeType: 'BUY', quantity: 0.014, price: 67500.00 },
-  ];
+const TradeHistory = ( { trades }) => {
+ 
+    const formatTimestamp = (timestamp) => {
+        return new Date(timestamp).toLocaleString();
+    }
 
   return (
     <div className="trade-history-container">
@@ -26,9 +24,10 @@ const TradeHistory = () => {
             </tr>
           </thead>
           <tbody>
-            {trades.map((trade) => (
+            {trades && trades.length > 0 ? (
+              trades.map((trade) => (
               <tr key={trade.id}>
-                <td>{trade.timestamp}</td>
+                <td>{formatTimestamp(trade.timestamp)}</td>
                 <td>{trade.symbol}</td>
                 <td>
                   <span className={`action-badge ${trade.tradeType.toLowerCase()}`}>
@@ -39,15 +38,22 @@ const TradeHistory = () => {
                 <td>${trade.price.toFixed(2)}</td>
                 <td>${(trade.quantity * trade.price).toFixed(2)}</td>
                 <td className={trade.pnl >= 0 ? 'profit' : 'loss'}>
-                  {trade.tradeType === 'SELL' ? (trade.pnl >= 0 ? `+$${trade.pnl.toFixed(2)}` : `-$${Math.abs(trade.pnl).toFixed(2)}`) : '—'}
+                  {trade.tradeType === 'SELL' && trade.pnl != null ? 
+                    (trade.pnl >= 0 ? `+$${trade.pnl.toFixed(2)}` : `-$${Math.abs(trade.pnl).toFixed(2)}`) : '—'}
                 </td>
               </tr>
-            ))}
+            ))
+            ) : (
+              <tr>
+                <td colSpan="7" style={{ textAlign: 'center' }}>No trades yet.</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
     </div>
   );
+  
 };
 
 export default TradeHistory;

@@ -98,3 +98,10 @@ input:checked + .slider:before {
   background-color: #4a4a5e;
   cursor: not-allowed;
 }
+
+.live-indicator {
+  text-align: center;
+  font-weight: bold;
+  color: #ff9a8b;
+  margin-top: 1rem;
+}
