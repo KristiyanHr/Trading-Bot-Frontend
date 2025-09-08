@@ -4,22 +4,32 @@ import { SUPPORTED_CRYPTOS } from './cryptoConfig.js';
 import Controls from './components/Controls.jsx';
 import Performance from './components/Performance.jsx';
 import TradeHistory from './components/TradeHistory.jsx';
-import { getAccountData } from './apiService.js';
+import { getAccountData, getTradeHistoryByType } from './apiService.js';
+import PortfolioChart from './components/PortfolioChart.jsx';
+
 
 function App() {
   const [ selectedCrypto, setSelectedCrypto ] = useState(SUPPORTED_CRYPTOS[0]);
   const [ accountStatus, setAccountStatus ] = useState(null);
   const [ isLoading, setIsLoading ] = useState(true);
   const [isLive, setIsLive] = useState(false);
+  const [mode, setMode] = useState('backtest'); 
+  const [trades, setTrades] = useState([]);
+
 
   const fetchData = async () => {
-    console.log("Fetching account data...");
+    console.log(`Fetching data for mode: ${mode}`);
     setIsLoading(true);
-    const data = await getAccountData();
-    setAccountStatus(data);
+
+    const statusData = await getAccountData();
+
+    const tradeData = await getTradeHistoryByType(mode);
+    
+    setAccountStatus(statusData);
+    setTrades(tradeData); 
     setIsLoading(false);
-    console.log("Account data fetched: ", data);
-  }
+    console.log("Status:", statusData, "Trades:", tradeData);
+  };
 
   useEffect(() => {
     fetchData();
@@ -28,7 +38,7 @@ function App() {
     
     if (isLive) {
       console.log("Live Mode is ON. Starting 10 seccong polling");
-      intervalId = setInterval(fetchData, 10000); // Poll every 10 seconds
+      intervalId = setInterval(fetchData, 5000);
     }
 
     return () => {
@@ -38,7 +48,13 @@ function App() {
       }
     }
 
-  }, [isLive]);
+  }, [isLive, mode]);
+
+  const tradesToShow = accountStatus ? 
+    accountStatus.trades.filter(trade => 
+      trade.simulationType && trade.simulationType.toLowerCase() === mode
+    )
+    : [];
 
   if (isLoading) {
     return <div className="loading-screen"><h1>Loading Dashboard....</h1></div>;
@@ -80,6 +96,8 @@ function App() {
               onActionComplete = {fetchData}
               isLive={isLive}
               setIsLive={setIsLive}
+              mode={mode}
+              setMode={setMode}
             />
           </div>
           
@@ -89,10 +107,15 @@ function App() {
           
           <div className="grid-item-chart">
             <h2>Portfolio Value Over Time</h2>
+            <PortfolioChart 
+              trades = {trades}
+              initialBalance={10000}  />
           </div>
 
           <div className="grid-item-history">
-            <TradeHistory trades = {accountStatus.trades}/>
+            <TradeHistory
+              trades = {trades}
+            />
           </div>
         </div>
       </main>

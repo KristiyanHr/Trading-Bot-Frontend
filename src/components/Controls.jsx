@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import './Controls.css';
 import { startBacktest, startLiveSim, stopLiveSim, resetAccount } from '../apiService';
 
-const Controls = ({ selectedCrypto, onActionComplete, isLive, setIsLive }) => {
-  const [mode, setMode] = useState('backtest');
+const Controls = ({ selectedCrypto, onActionComplete, isLive, setIsLive, mode, setMode}) => {
   const [ isLoading, setIsLoading ] = useState(false);
 
   const handleStart = async () => {

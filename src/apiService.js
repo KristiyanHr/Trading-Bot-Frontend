@@ -44,3 +44,16 @@ export const getAccountData = async () => {
     return null;
   }
 };
+
+export const getTradeHistoryByType = async (type) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/account/1/trades?type=${type}`
+    );
+    if (!response.ok) throw new Error("Failed to fetch trade history");
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching ${type} trades:`, error);
+    return [];
+  }
+};

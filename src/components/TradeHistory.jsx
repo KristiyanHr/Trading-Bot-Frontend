@@ -3,10 +3,6 @@ import './TradeHistory.css';
 
 const TradeHistory = ( { trades }) => {
  
-    const formatTimestamp = (timestamp) => {
-        return new Date(timestamp).toLocaleString();
-    }
-
   return (
     <div className="trade-history-container">
       <h2>Trade History</h2>
@@ -27,7 +23,7 @@ const TradeHistory = ( { trades }) => {
             {trades && trades.length > 0 ? (
               trades.map((trade) => (
               <tr key={trade.id}>
-                <td>{formatTimestamp(trade.timestamp)}</td>
+                <td>{new Date(trade.timestamp).toLocaleString()}</td>
                 <td>{trade.symbol}</td>
                 <td>
                   <span className={`action-badge ${trade.tradeType.toLowerCase()}`}>
