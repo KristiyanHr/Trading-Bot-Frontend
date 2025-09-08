@@ -6,6 +6,8 @@ import Performance from './components/Performance.jsx';
 import TradeHistory from './components/TradeHistory.jsx';
 import { getAccountData, getTradeHistoryByType } from './apiService.js';
 import PortfolioChart from './components/PortfolioChart.jsx';
+import PriceChart from './components/PriceChart.jsx'; 
+
 
 
 function App() {
@@ -15,6 +17,7 @@ function App() {
   const [isLive, setIsLive] = useState(false);
   const [mode, setMode] = useState('backtest'); 
   const [trades, setTrades] = useState([]);
+  const [activeChart, setActiveChart] = useState('portfolio');
 
 
   const fetchData = async () => {
@@ -50,11 +53,6 @@ function App() {
 
   }, [isLive, mode]);
 
-  const tradesToShow = accountStatus ? 
-    accountStatus.trades.filter(trade => 
-      trade.simulationType && trade.simulationType.toLowerCase() === mode
-    )
-    : [];
 
   if (isLoading) {
     return <div className="loading-screen"><h1>Loading Dashboard....</h1></div>;
@@ -69,7 +67,7 @@ function App() {
       <header className="app-header">
         <h1>Crypto Trading Bot Dashboard</h1>
         <div className="crypto-selector">
-          <label htmlFor="crypto-select">Selected Asset:</label>
+          <label htmlFor="crypto-select">Selected Asset: </label>
           <select
             id="crypto-select"
             value={selectedCrypto.symbol}
@@ -106,10 +104,27 @@ function App() {
           </div>
           
           <div className="grid-item-chart">
-            <h2>Portfolio Value Over Time</h2>
-            <PortfolioChart 
-              trades = {trades}
-              initialBalance={10000}  />
+            <div className="chart-tabs">
+              <button
+                className={activeChart === 'portfolio' ? 'active' : ''}
+                onClick={() => setActiveChart('portfolio')}>      
+                Portfolio Performance
+              </button>
+
+              <button
+                className={activeChart === 'price' ? 'active' : ''}
+                onClick={() => setActiveChart('price')}>
+                Price Analysis
+              </button>
+            </div>
+
+            <div className="chart-content">
+              {activeChart === 'portfolio' ? (
+                <PortfolioChart trades={trades} initialBalance={10000} />
+              ) : (
+                <PriceChart selectedCrypto={selectedCrypto} />
+              )}
+            </div>
           </div>
 
           <div className="grid-item-history">
