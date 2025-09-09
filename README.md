@@ -1,12 +1,49 @@
-# React + Vite
+# Automated Crypto Trading Bot (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is the frontend dashboard for a simulated automated cryptocurrency trading bot. It's a full-stack application with a Java Spring Boot backend and this React frontend. This repository contains the frontend code.
 
-Currently, two official plugins are available:
+The dashboard provides a user-friendly interface to control the trading bot, visualize its performance in real-time, and analyze market data.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Backend Repository:** https://github.com/KristiyanHr/Trading-Bot-Backend
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+*   **Dynamic Dashboard:** A responsive and modern UI built with React.
+*   **Bot Controls:** Easily start/stop simulations and switch between Training (Backtest) and Trading (Live) modes.
+*   **Multi-Asset Support:** A dropdown allows the user to select and control the bot for different cryptocurrencies (e.g., Bitcoin, Ethereum).
+*   **Real-Time Performance Tracking:** Key Performance Indicators (KPIs) like Balance, Portfolio Value, and Total P/L are updated periodically.
+*   **Interactive Charts:**
+    *   **Portfolio Performance:** An area chart visualizes the cumulative Profit/Loss over the course of a simulation.
+    *   **Price Analysis:** A powerful comparison chart that plots the current price trend (last 30 days) against the historical trend from one year ago.
+*   **Detailed Trade History:** A clear, scrollable table showing every trade the bot has executed.
+
+## Technical Requirements & Stack
+
+*   **Framework/Library:** React (with Vite for a fast development environment)
+*   **Charting:** Recharts
+*   **Styling:** Custom CSS with a modern, responsive grid/flexbox layout.
+*   **API Communication:** Asynchronous `fetch` calls to the backend REST API.
+
+## Setup & Running the Application
+
+### Prerequisites
+*   Node.js (v18 or newer recommended)
+*   npm (usually comes with Node.js)
+*   The backend application must be running first.
+
+### 1. Installation
+
+1.  Navigate to the root directory of the `trading-bot-frontend` project in your terminal.
+2.  Install all the required npm packages:
+
+    npm install
+
+
+### 2. Running the Frontend
+
+1.  After the installation is complete, start the Vite development server:
+
+    npm run dev
+
+2.  The application will automatically open in your browser.
+3.  The frontend will be available at `http://localhost:5173`.
