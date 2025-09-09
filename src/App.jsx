@@ -9,7 +9,6 @@ import PortfolioChart from './components/PortfolioChart.jsx';
 import PriceChart from './components/PriceChart.jsx'; 
 
 
-
 function App() {
   const [ selectedCrypto, setSelectedCrypto ] = useState(SUPPORTED_CRYPTOS[0]);
   const [ accountStatus, setAccountStatus ] = useState(null);
